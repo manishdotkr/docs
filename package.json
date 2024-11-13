@@ -1,7 +1,8 @@
 {
-  "name": "nextra-docs-template",
+  "name": "docs",
   "version": "0.0.1",
-  "description": "Nextra docs template",
+  "description": "A Project For Storing Docs",
+  "homepage": "https://docs.manish.kr",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,14 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shuding/nextra-docs-template.git"
+    "url": "git+https://github.com/manishdotkr/docs.git"
   },
-  "author": "Shu Ding <g@shud.in>",
+  "author": "Manish <manishdotkr@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/shuding/nextra-docs-template/issues"
+    "url": "https://github.com/manishdotkr/docs/issues"
   },
-  "homepage": "https://github.com/shuding/nextra-docs-template#readme",
   "dependencies": {
     "next": "^13.5.7",
     "nextra": "^2.0.0",
