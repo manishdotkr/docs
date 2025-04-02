@@ -141,3 +141,36 @@ helm upgrade <release-name> <chart> -n <namespace> --set <key>=<value>
   helm upgrade manishboard-rls manishboard-helm/manishboard -n manishboard-ns --set deployment.backend.imageTag=8fcb21dade40a55feeeedcf70585d9ba8ad62980
   ```
 - **Description**: Upgrades a release with a custom value passed and specifies a namespace.
+
+
+#### 15. **Download a Helm Chart**
+```bash
+helm pull <repo>/<chart> [--version <chart-version>] [--untar]
+```
+- **Example**:
+  ```bash
+  helm pull stable/nginx-ingress --untar
+  ```
+- **Description**: Downloads the specified Helm chart. The `--untar` flag extracts the chart after downloading.
+
+#### 16. **Get the Entire `values.yaml` File of a Chart**
+```bash
+helm show values <repo>/<chart>
+```
+- **Example**:
+  ```bash
+  helm show values stable/nginx-ingress
+  ```
+- **Description**: Retrieves the full `values.yaml` file for the given chart.
+
+#### 17. **Install or Upgrade a Release Using a Custom `values.yaml` File**
+```bash
+helm install <release-name> <chart> -f <custom-values.yaml>
+helm upgrade <release-name> <chart> -f <custom-values.yaml>
+```
+- **Example**:
+  ```bash
+  helm install manishboard-rls manishboard-helm/manishboard -f custom-values.yaml
+  helm upgrade manishboard-rls manishboard-helm/manishboard -f custom-values.yaml
+  ```
+- **Description**: Installs or upgrades a Helm release using a custom `values.yaml` file instead of passing key-value pairs individually.
