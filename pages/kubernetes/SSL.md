@@ -7,7 +7,9 @@ helm repo update
 ```
 
 ## Install Cert-Manager CRDs
-```sh kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml```
+```sh
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml
+```
 
 ## Install Cert-Manager
 ```sh
@@ -19,7 +21,9 @@ helm install \
 ```
 
 ## Verify Installation
-```sh kubectl get pods -n cert-manager```
+```sh
+kubectl get pods -n cert-manager
+```
 
 ## Create secret with cloudflare api token
 ```sh
@@ -47,6 +51,23 @@ spec:
           apiTokenSecretRef:
             name: cloudflare-token
             key: token
+```
+
+## Create Certificate Resource
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example-tls-cert
+  namespace: cert-manager
+spec:
+  secretName: example-tls-secret
+  issuerRef:
+    name: letsencrypt-dns-cloudflare
+    kind: ClusterIssuer
+  dnsNames:
+    - example.com
+    - '*.example.com'  # Wildcard certificate
 ```
 
 ## Create Ingress with TLS Configuration
@@ -80,3 +101,5 @@ spec:
             port:
               number: 80
 ```
+
+
