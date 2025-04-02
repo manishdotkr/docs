@@ -53,7 +53,7 @@ spec:
             key: token
 ```
 
-## Create Certificate Resource
+## Create Certificate Resource (optional)
 ```yaml
 apiVersion: cert-manager.io/v1
 kind: Certificate
