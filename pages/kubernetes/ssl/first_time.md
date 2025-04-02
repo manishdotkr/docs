@@ -1,5 +1,14 @@
 # Use SSL with Ingress
 
+## Process
+1. [Add the Jetstack Helm repository](#add-the-jetstack-helm-repository)
+2. [Install Cert-Manager CRDs](#install-cert-manager-crds)
+3. [Install Cert-Manager](#install-cert-manager)
+4. [Create secret with Cloudflare API token](#create-secret-with-cloudflare-api-token)
+5. [Create ClusterIssuer](#create-clusterissuer)
+6. [Create Certificate Resource (optional)](#create-certificate-resource-optional)
+7. [Create Ingress with TLS Configuration](#create-ingress-with-tls-configuration)
+
 ## Add the Jetstack Helm repository
 ```sh
 helm repo add jetstack https://charts.jetstack.io
@@ -25,7 +34,7 @@ helm install \
 kubectl get pods -n cert-manager
 ```
 
-## Create secret with cloudflare api token
+## Create secret with Cloudflare API token
 ```sh
 kubectl create secret generic cloudflare-token \
   -n cert-manager \
@@ -101,5 +110,4 @@ spec:
             port:
               number: 80
 ```
-
 
