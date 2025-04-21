@@ -9,6 +9,8 @@ Amazon OpenSearch Service supports **manual snapshots** to back up your cluster'
 ### This guide walks through:
 - Required AWS setup (IAM Role, S3 Bucket)
 - Python script to register the repository and trigger snapshots
+- Checking snapshot status
+- Using OpenSearch Dashboard (Dev Tools)
 
 ---
 
@@ -176,10 +178,10 @@ if __name__ == "__main__":
 Once your repository is registered, you can create a snapshot using:
 
 ```bash
-PUT /_snapshot/my-snapshot-repo/snapshot-2025-04-21
+PUT /_snapshot/elasticsearch-snapshot-repo/snapshot-2025-04-21
 ```
 
-In Python, that would look like:
+In Python:
 
 ```python
 def create_snapshot(domain_endpoint, repo_name, snapshot_name, awsauth):
@@ -191,7 +193,35 @@ def create_snapshot(domain_endpoint, repo_name, snapshot_name, awsauth):
 # Call this after registering repo
 create_snapshot(
     domain_endpoint="https://search-your-opensearch-domain.us-west-2.es.amazonaws.com",
-    repo_name="my-snapshot-repo",
+    repo_name="elasticsearch-snapshot-repo",
+    snapshot_name="snapshot-2025-04-21",
+    awsauth=awsauth
+)
+```
+
+---
+
+## 🔎 Checking Snapshot Status
+
+To verify the status of a snapshot:
+
+```bash
+GET /_snapshot/elasticsearch-snapshot-repo/snapshot-2025-04-21
+```
+
+In Python:
+
+```python
+def get_snapshot_status(domain_endpoint, repo_name, snapshot_name, awsauth):
+    url = f"{domain_endpoint}/_snapshot/{repo_name}/{snapshot_name}"
+    response = requests.get(url, auth=awsauth)
+    print(f"[{response.status_code}] Snapshot Status Response:")
+    print(response.text)
+
+# Usage:
+get_snapshot_status(
+    domain_endpoint="https://search-your-opensearch-domain.us-west-2.es.amazonaws.com",
+    repo_name="elasticsearch-snapshot-repo",
     snapshot_name="snapshot-2025-04-21",
     awsauth=awsauth
 )
@@ -204,7 +234,33 @@ create_snapshot(
 To delete a manual snapshot:
 
 ```bash
-DELETE /_snapshot/my-snapshot-repo/snapshot-2025-04-21
+DELETE /_snapshot/elasticsearch-snapshot-repo/snapshot-2025-04-21
+```
+
+---
+
+## 🖥️ Using OpenSearch Dashboard (Dev Tools)
+
+These snapshot operations can also be performed directly from the **OpenSearch Dashboard → Dev Tools**:
+
+```bash
+PUT _snapshot/elasticsearch-snapshot-repo
+{
+  "type": "s3",
+  "settings": {
+    "bucket": "legaltech-openseach-snapshot",
+    "region": "us-east-2",
+    "role_arn": "arn:aws:iam::126859476350:role/opensearch-snapshot-role-bs"
+  }
+}
+```
+
+```bash
+PUT _snapshot/elasticsearch-snapshot-repo/snapshot-2025-04-21
+```
+
+```bash
+GET _snapshot/elasticsearch-snapshot-repo/snapshot-2025-04-21
 ```
 
 ---
@@ -218,5 +274,7 @@ DELETE /_snapshot/my-snapshot-repo/snapshot-2025-04-21
 | ✅ Attach IAM policies         | ☐    |
 | ✅ Register snapshot repo      | ☐    |
 | ✅ Trigger snapshot            | ☐    |
+| ✅ Check snapshot status       | ☐    |
+| ✅ Use Dashboard Dev Tools     | ☐    |
 
 ---
